@@ -3,7 +3,7 @@ var cmudictFile = readCmudictFile('./cmudict.txt');
 var syllableWordHolder = {};
 formatData(cmudictFile);
 
-printHaiku([2,2,1,3,4,6,1]);
+printHaiku([2,2,1,3,4,4,1]);
 
 function readCmudictFile(file){
   return fs.readFileSync(file).toString();
