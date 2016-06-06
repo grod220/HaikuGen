@@ -8,7 +8,8 @@ var bibleDat = readCmudictFile('./kingjames.txt');
 var bibleSyllableObj = {};
 formatBible(bibleDat);
 for (var i = 0; i<100; i++) {
-  printHaiku([7], bibleSyllableObj);
+  printHaiku([5,7,5], bibleSyllableObj);
+  console.log(' __ ');
 }
 
 
