@@ -2,25 +2,31 @@ var fs = require("fs");
 var cmudictFile = readCmudictFile('./cmudict.txt');
 var syllableWordHolder = {};
 formatData(cmudictFile);
+// printHaiku([5,7,5], syllableWordHolder);
 
 var bibleDat = readCmudictFile('./kingjames.txt');
+var bibleSyllableObj = {};
+formatBible(bibleDat);
+for (var i = 0; i<100; i++) {
+  printHaiku([7], bibleSyllableObj);
+}
 
-// printHaiku([5,7,5]);
-
-console.log(formatBible(bibleDat));
 
 function formatBible (data) {
   var bibleString = data.toString().replace(/\w*\|\d*\|\d*\|\s|~/g, '').replace(/\r\n/g, ' ');
   var versesArray = bibleString.replace(/\./g,'.$').replace(/!/g,'!$').replace(/\?/g,'?$').replace(/\$ /g,'\$').split(/\$/g);
-  // // for (var i=0; i<versesArray.length; i++) {
-  //   var sylCount = syllablesInSent(versesArray[i])
-  // }
-  console.log(versesArray);
-  // console.log(syllablesInSent(versesArray[2]));
+  for (var i=0; i<versesArray.length; i++) {
+    console.log(versesArray.length-i);
+    var sylCount = syllablesInSent(versesArray[i]);
+    if (bibleSyllableObj.hasOwnProperty(sylCount)) {
+      bibleSyllableObj[sylCount].push(versesArray[i]);
+    } else {
+      bibleSyllableObj[sylCount] = [versesArray[i]];
+      }
+  }
 }
 
 // console.log(syllablesInSent('Alexandra, I miss you so much!'));
-
 // Take a sentence and see how many syllables are there
 function syllablesInSent (string) {
   var total = 0;
@@ -76,28 +82,28 @@ function formatData(data){
   });
 }
 
-function generateWord (syllableCount) {
-  return syllableWordHolder[syllableCount][Math.floor(Math.random() * syllableWordHolder[syllableCount].length)];
+function generateWord (syllableCount, object) {
+  return object[syllableCount][Math.floor(Math.random() * object[syllableCount].length)];
 }
 
-function printHaiku (syllablearray) {
+function printHaiku (syllablearray, object) {
   var runningTotal = 0;
   var haiku = '';
   for (var i=0; i<syllablearray.length; i++) {
     if (runningTotal < 5) {
-      haiku += generateWord(syllablearray[i]) + ' ';
+      haiku += generateWord(syllablearray[i], object) + ' ';
       runningTotal += syllablearray[i];
       if (runningTotal >= 5) {
         haiku += '\n';
       }
     } else if (runningTotal < 12) {
-      haiku += generateWord(syllablearray[i]) + ' ';
+      haiku += generateWord(syllablearray[i], object) + ' ';
       runningTotal += syllablearray[i];
       if (runningTotal >= 12) {
         haiku += '\n';
       }
     } else {
-      haiku += generateWord(syllablearray[i]) + ' ';
+      haiku += generateWord(syllablearray[i], object) + ' ';
       runningTotal += syllablearray[i];
     }
     // console.log(runningTotal);
